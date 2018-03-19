@@ -1,0 +1,68 @@
+* Emacs入门
+根据目前的了解进行总结与记录，方便日后查看与校对。
+
+** Emacs概括
+由目前的情况来看，Emacs只是一种编辑器，用于文本编辑等，无论他人对其作何评价，在现阶段给本人的感受就是这样的。
+
+通过几次的安装与使用，Emacs在Ubuntu上的使用体验要明显好于在Windows上的体验，主要可能是由于Ubuntu中的终端更好用一些吧。
+
+*** 程序结构
+对于Emacs的程序结构并没有进行细致的研究，但根据目前掌握的资料还是描述一些为好，更加方便记忆。
+
++ Emacs [2/2]
+  + [X] 主体程序
+  + [X] 配置文件
+    + [X] .emacs.d
+      1. 存在于用户根目录～/下的，服务于当前目录的用户
+      2. 存在与root下的，服务于root用户
+      3. 与spacemacs进行切换时，将emacs的.emacs.d重命名一下，将spacemacs的复制过来即可，反之亦然
+      4. 在emacs中查看的方式为: C-h v user-init-file
+         1. C-x d ~ 找到根目录
+    + [X] init.el :: 
+
+* Spacemacs入门
+两者区分并不明显，先作记录
+
+** .spacemacs
+
+*** 改动.spacemace文件
+将注释掉的层改动回来，然后使用M-m f e R 安装，重启之后即可使用。
++ 将shell和git添加进了本配置
+  + shell
+    + 使用M-m '打开
+    + C-c M-o 清除记录
+  + git
+    + 使用M-m g 调用相关命令
+    + [[http://blog.csdn.net/csfreebird/article/details/52871162][相关网址]]
+
+** 操作
+
++ neotree
+  + 打开 :: M-m f t
+
+
+* 总入门
+将一些区分不明显的记录在此
+
+** 操作
+
++ 自动换行 :: M-x toggle-truncate-lines
++ 退出 :: C-x C-c
++ 保存 :: C-x C-s
+
+| 操作 | 快捷键 | 备注 |
+|------+--------+------|
+|      |        |      |
+
+
+* org mode
+
+** 表格
+1. 在输入|-后敲回车可以补全表格，或者C-c C-c,但是光标需要在'-'上，否则就不在表格的格式中了
+2. table的中文显示有问题，尝试换一些字体试试
+   + 设置1
+     + (set-default-font "DejaVu Sans Mono 10")
+     + (set-default-font "fontset-default" 'unicode "WenQuanYi Bitmap Song 12");;Linux
+   + 设置2
+     + [[http:emacser.com/torture-emacs.htm][参考网址]]
+3. 
