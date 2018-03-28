@@ -1,0 +1,132 @@
+* Maven 学习笔记
+
+** 1. Maven的优势
+   :LOGBOOK:
+   CLOCK: [2018-03-28 周三 11:59]--[2018-03-28 周三 14:12] =>  2:13
+   :END:
+
+
+1. 管理项目jar包，减少项目的体积
+   1. 依赖通过pom.xml进行管理，依赖的源文件存储在仓库中
+
+** 2. Maven的原理
+
+*** 2.1 Maven的依赖管理
+
+    就是维护一个本地的依赖仓库，通过索引导入到项目中。
+
+*** 2.2 项目的一键构建
+
++ 使用Maven执行项目
+  1. ~mvn tomcat:run~ 通过tomcat执行web项目
+     1. 结果会提示项目的url
+  2. ~mvn package~ 将项目打包，web为war，普通为jar
+     1. 结果会提示生成的位置
++ Maven构建项目
+  + 清理-编译-测试-报告-打包-部署
+  + 从前向后执行，后面的命令执行时肯定会执行前面的命令
+
+
+** 3. Maven的安装与配置
+
+*** 3.1 Maven的安装
+
++ Maven的安装
+  1. 下载安装包
+  2. 解压到没有中文与空格的路径下
++ Maven目录结构
+  + bin :: 命令文件
+  + boot :: 引导程序，类加载器
+  + lib :: maven的依赖
+  + conf :: 配置文件
+
+*** 3.2 Maven配置
+
++ Maven配置
+  + 配置环境变量
+    + MAVEN_HOME : <path>
+    + path : +;%MAVEN_HOME%/bin
+    + ~mvn -v~ 检测是否成功
+  + 仓库的配置
+    + 本地仓库
+      + conf/setting.xml
+        + ~<localRepository>localpath</localRepository>~
+    + 远程仓库
+    + 中央仓库
+  + 项目结构
+    + src
+      + main
+        + java
+        + resources
+        + webapp
+          + WEB-INF
+      + test
+        + java
+        + resources
+    + pom.xml
+
+** 4. Maven常用命令
+
++ 常用命令
+  + ~mvn compile~
+  + ~mvn test~
+  + ~mvn install~ 安装到本地仓库
+
+** 5. Maven生命周期
+
++ 生命周期--没啥用，主要用前两种
+  + CleanLifecycle 真正构建之前进行一些清理工作
+  + DefaultLifecycle 构建的核心部分，编译，测试，打包，部署
+  + SiteLifecycle 生成项目报告，站点，发布站点
+
+** 6. 添加Maven工程
+
++ Eclipse中Maven的配置
+  + Windows->Preferences->Maven
+    + Installation:选择Maven目录
+    + User Settings:选择配置文件
+  + Windows->show view->other->maven reponsitory: 打开窗口，可以查看本地的仓库中包含了哪些文件
+    + 右键-rebuild index
+
++ 创建maven工程
+  + Maven Module  可以分模块创建项目
+  + Maven Project 创建一个单一的项目
+
++ 创建所需的参数
+  + Group ID :: 公司名
+  + Artifact ID :: 项目名
+  + Version :: 版本
+  + Parent :: 
+
++ pom.xml
+  + 添加依赖 :: 可以指定适用范围
+    + compile 编译时
+    + provided 测试
+    + runtime 运行与测试时，编译时不需要
+    + test 测试时
+    + system -没啥用
+
+
+配置JDK版本
+#+BEGIN_SRC xml
+<build>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<configuration>
+				<source>1.7</source>
+				<target>1.7</target>
+				<encoding>UTF-8</encoding>
+			</configuration>
+		</plugin>
+	</plugins>
+</build>
+#+END_SRC
+
+* Maven 命令总结
+
++ maven命令
+  + ~maven tomcat:run~
+  + ~maven package~
+  + ~maven clean~ 清理当前目录下创建的工程
