@@ -9,32 +9,32 @@
 1. 管理项目jar包，减少项目的体积
    1. 依赖通过pom.xml进行管理，依赖的源文件存储在仓库中
 
-** 2. Maven的原理
+** 2. Maven的原理 
 
 *** 2.1 Maven的依赖管理
 
     就是维护一个本地的依赖仓库，通过索引导入到项目中。
 
-*** 2.2 项目的一键构建
+*** 2.2 项目的一键构建 [1/1]
 
 + 使用Maven执行项目
   1. ~mvn tomcat:run~ 通过tomcat执行web项目
      1. 结果会提示项目的url
   2. ~mvn package~ 将项目打包，web为war，普通为jar
      1. 结果会提示生成的位置
-+ Maven构建项目
-  + 清理-编译-测试-报告-打包-部署
++ [X] Maven构建项目 [1/1]
+  + [X] 清理-编译-测试-报告-打包-部署
   + 从前向后执行，后面的命令执行时肯定会执行前面的命令
 
 
 ** 3. Maven的安装与配置
 
-*** 3.1 Maven的安装
+*** 3.1 Maven的安装 [1/1]
 
 + Maven的安装
   1. 下载安装包
   2. 解压到没有中文与空格的路径下
-+ Maven目录结构
++ [X] Maven目录结构 
   + bin :: 命令文件
   + boot :: 引导程序，类加载器
   + lib :: maven的依赖
@@ -42,18 +42,18 @@
 
 *** 3.2 Maven配置
 
-+ Maven配置
-  + 配置环境变量
++ Maven配置 [3/3]
+  + [X] 配置环境变量
     + MAVEN_HOME : <path>
     + path : +;%MAVEN_HOME%/bin
     + ~mvn -v~ 检测是否成功
-  + 仓库的配置
+  + [X] 仓库的配置 
     + 本地仓库
       + conf/setting.xml
         + ~<localRepository>localpath</localRepository>~
     + 远程仓库
     + 中央仓库
-  + 项目结构
+  + [X] 项目结构
     + src
       + main
         + java
@@ -81,8 +81,8 @@
 
 ** 6. 添加Maven工程
 
-+ Eclipse中Maven的配置
-  + Windows->Preferences->Maven
++ Eclipse中Maven的配置 [1/1]
+  + [X] Windows->Preferences->Maven
     + Installation:选择Maven目录
     + User Settings:选择配置文件
   + Windows->show view->other->maven reponsitory: 打开窗口，可以查看本地的仓库中包含了哪些文件
@@ -98,13 +98,15 @@
   + Version :: 版本
   + Parent :: 
 
-+ pom.xml
-  + 添加依赖 :: 可以指定适用范围
++ pom.xml [2/3]
+  + [X] 添加依赖 :: 可以指定适用范围
     + compile 编译时
     + provided 测试
     + runtime 运行与测试时，编译时不需要
     + test 测试时
     + system -没啥用
+  + [X] JDK版本设置
+  + [ ] 剩余的总结
 
 
 配置JDK版本
@@ -123,6 +125,81 @@
 	</plugins>
 </build>
 #+END_SRC
+
+
+* Maven 学习笔记2
+  :LOGBOOK:
+  CLOCK: [2018-03-29 周四 11:20]--[2018-03-29 周四 13:01] =>  1:41
+  :END:
+
+** 4. 冲突问题的解决
+
++ 冲突解决
+  + 右键Exclude
+    + 相当于在相应的包之中添加了exclusions标签，用于去除依赖
+  + 版本锁定
+    + dependency_management
+    + 只锁定，不加入
+  + 版本设置
+    + properties
+      + 在其中添加key-value
+      + 引用使用${key}进行引用
+  + 原则
+    + 先声明，优先导入
+    + 路径浅的优先导入
+      + A依赖2.0,A依赖B，B依赖1.0，则2.0优先
+
++ PO规范 （持久层对象 persistent Object）
+  1. 公有类
+  2. 私有属性
+  3. 公有的getter与setter方法
+  4. 不能使用final修饰
+  5. 提供默认的无参构造
+  6. 基本类型使用包装类替换
+  7. 一般要实现java.io.Serializable
++ 主键生成策略
+  1. identity,native,sequence,uuid,increment,assigned
+
+** 5. Maven工程的拆分与聚合
+
++ 拆分
+  + 概念
+    + 父工程-maven project
+    + 模块  -maven-module
+  + 拆分步骤
+    + 创建父工程
+      + 打包方式选择pom
+      + 目录结构与普通结构不同，不放置代码
+      + pom.xml放置公用的jar包
+        + 也会放置子模块的配置-项目名
+        + pom.xml中配置的依赖，子模块会添加依赖，但子模块的配置不会有什么变化
+    + 创建子模块
+      + maven module
+      + 配置父工程
+        + parent
+          + groupID,artifactId,version
+      + web模块使用war打包
+    + 父工程中test的依赖无法在子模块中使用
+      + 子模块中自行引用即可
++ 聚合
+  + 子模块间相互调用需要相互进行引用
+
+** 6. 依赖关系
+
+| null     | compile  | provided | runtime  | test |
+|----------+----------+----------+----------+------|
+| compile  | compile  | -        | runtime  | -    |
+| provided | provided | provided | provided | -    |
+| runtime  | runtime  | -        | runtime  | -    |
+| test     | test     | -        | test     | -    |
+
+
+** 7. 搭建私服--略
+
+** 8.版本控制
+
+
+
 
 * Maven 命令总结
 
