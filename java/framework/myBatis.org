@@ -1,0 +1,224 @@
+* MyBatis学习记录
++ 基础-属于规范，并不强制
+  + pojo
+    + 不再MVC中，简单的java bean，属性与get，set方法
+  + domain
+    + 同pojo
+  + po
+    + 持久层对象，类名等于表名，属性等于字段名，可以从页面传入action中
+  + vo
+    + view object，表现层，高级查询中从页面接受传过来的参数
+  + bo
+    + service层，目前不用了
+
+* 1、MyBatis架构原理
+
++ 架构原理
+  + MyBatis配置文件
+    + SqlMapConfig.xml :: 全局配置
+      + 官网上有
+      + 需要修改的就是数据库连接池
+      + 数据库连接：serverTimezone=UTC&amp;characterEncoding=utf-8
+    + Mapper[1-n].xml :: 映射配置，包含sql语句
+      + 映射文件
+        + mapper-namespace
+          + select-id-parameterType-resultType
+            + 占位符 :: #{id}
+            + 拼接符 :: '%${value}%',慎重使用，容易注入
+  + SqlSessionFactory
+    + 加在全局配置创建SqlSession
+  + SqlSession
+    + 调用映射文件中的设置
+  + Executor
+    + 执行器
+    + 调用的SQL接口
+  + MappedStatement
+    + 抽取映射文件中的设置，生成对应的对象
+    + 输入映射
+      + Map
+      + String、Integer等
+      + Pojo
+    + 输出映射
+      + Map
+      + String、Integer等
+      + Pojo
+      + List
+
+* 2、入门程序
+
++ 查找数据
+  + 占位符：#{随意的名字}
++ 模糊查找
+  + 拼接符：${value}
++ 插入数据
+  + insert之后需要手动提交：openSession.commit()
+  + sql中的value使用属性名
+  + mybatis自动开启事务
+  + 默认不返回数据，数据库可以查：select LAST_INSERTID();
+  + 返回自增主键
+    + selectKey-keyProperty-order-resultType
+      + select LAST_INSERT)ID()
+      + 将返回的主键放入传入参数中:keyPropery="id"
+      + 执行位置，先执行或后执行：order="AFTER"
+      + resultType为keyProperty的类型
+  + uuid
+    + select uuid()-selectKey
+    + order="before"
++ 删除数据
+  + commit
++ 更新数据
+  + 使用pojo对象进行更新
+  + commit
+
+* DAO的开发方法
+
++ DAO
+  + private SqlSessionFactory
+  + sqlSession是线程不安全的，所以最好在方法体内使用
++ 动态代理
+  + com.pxshuo.mapper
+    + UserMapper.java-interface
+    + UserMapper.xml
+      + namespace-接口的全路径命
+      + sql
+        + id-方法名
+        + 传入参数-方法的传入参数类型
+        + resultType-方法的返回类型
+
+* SqlMapConfig.xml
+
++ 配置文件
+  + properties
+    + 外置配置文件-名字要具体
+    + resource
+  + 别名typeAliases
+    + typeAlias
+      + type  路径
+      + alias 别名
+    + 包扫描
+      + package
+        + name
+        + 直接使用了类名
+  + mappers映射器
+    + package
+      + name
+      + 批量导入
+
+** 优缺点
+
++ Hibernate
+  + 标准Orm框架，集成度高，开发速度快，但是难以修改sql
++ mybatis
+  + 不是orm，属于对jdbc的封装，编码量大，适合用户量大，并发高的场景
+
+* 输入输出映射
+
++ 还是之前的东西
++ 逻辑上的排错，属于非受查异常
+
+* 动态SQL
+  :LOGBOOK:
+  CLOCK: [2018-04-02 周一 10:41]--[2018-04-02 周一 13:19] =>  2:38
+  :END:
+
++ 高级查询
+  + ~select * from user where 1=1 and name like %% and sex=1~
+    + where ： 将语句自动放入where中，会自动去除第一个and
+      + 通过if标签进行拼接
+  + 封装查询条件
+    + sql
+      + 通过include进行调用
+  + 集合传参
+    + vo-list
+      + 占位符
+        + where
+          + if test="ids != null"
+            + foreach
+              + coolection="ids"
+              + item="id"
+              + open="("-前缀
+              + close=")"-后缀
+              + separator=","-分隔符
+              + #{id}
+
+* 关联查询
+
++ 关联查询
+  + 传统企业查询复杂，互联网企业并发量大，关联查询少
+  + 多对一：订单到用户
+    + 自动映射
+      + CustomOrders extends Orders{}
+        + 把对应属性加进来
+    + 手动映射 -- 标准方法
+      + 自定义resultMap
+        + type-注入到哪个类中
+        + 手动映射属性与列名
+        + ID指定主键
+        + result指定非主键
+        + association 对象与对象类型
+          + id
+          + result
+  + 一对多：用户到订单
+    + user.id=order.id
+    + resultMap
+      + coolection；多
+
+* 整合Spring
+
++ lib
+  + mybatis
+  + mybatis-spring
+  + spring
+  + 数据库驱动、日志、junit
++ spring配置文件-加classpath
+  + 管理数据库连接池
+  + 管理sqlsession工厂
+    + configLoaction：配置文件
+    + dataSource：ref-bean
+    + 配置DAO实现类-dao需要继承DAOSupport
+    + Mapper接口代理
+      + 需要mapper接口的全路径名
+      + 用包扫描，多个包可以使用逗号分隔
+      + 核心文件中的包扫描可以去掉了
+
+* 逆向工程
+
+生成dao以及单表pojo的增删改查
++ 创建工程
+  + lib
+    + mybatis
+    + jdbc
+    + 逆向工程包
+    + log4j
+  + xml
+    + 连接属性
+    + 改包名
+    + 指定表
+  + startServer
+  + 追加的生成方式，不是覆盖
+    + 多次运行看不出有什么区别，但是无法使用
+
+* 练习计划 [0/9]
+
++ [ ] dao-增删改查
++ [ ] 动态代理-增删改查
++ [ ] 配置文件外置与包扫描
++ [ ] vo查询
++ [ ] 数量查询
++ [ ] 高级查询 [0/2]
+  + [ ] 封装查询条件
+  + [ ] 集合传参
++ [ ] 联合查询 [0/2]
+  + [ ] 多对一 [0/2]
+    + [ ] 自动
+    + [ ] 手动
+  + [ ] 一对多
++ [ ] Spring的整合
++ [ ] 逆向工程 [0/1]
+  + [ ] 生成及使用
+
+* 疑问 [0/1]
+
++ [ ] 疑问 [0/2]
+  + [ ] 如何从泛型转为数组的？肯定是反射机制
+  + [ ] pojo与dao的使用区别是什么
