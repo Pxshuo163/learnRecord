@@ -61,8 +61,8 @@
 1. 在输入|-后敲回车可以补全表格，或者C-c C-c,但是光标需要在'-'上，否则就不在表格的格式中了
 2. table的中文显示有问题，尝试换一些字体试试
    + 设置1
-     + (set-default-font "DejaVu Sans Mono 10")
-     + (set-default-font "fontset-default" 'unicode "WenQuanYi Bitmap Song 12");;Linux
+     + ~(set-default-font "DejaVu Sans Mono 10")~
+     + ~(set-default-font "fontset-default" 'unicode "WenQuanYi Bitmap Song 12");;Linux~
    + 设置2
      + [[http:emacser.com/torture-emacs.htm][参考网址]]
 3. 
