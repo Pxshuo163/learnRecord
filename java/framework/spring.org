@@ -1,0 +1,226 @@
+* Spring的IOC容器-XML与Spring和Web的整合
+
+本质上是管理bean
+
+** Spring框架
+
++ Spring核心
+  + 控制反转：IOC
+    + 管理对象，可以解耦
+    + 方便解耦，简化开发
+  + 面向切面：AOP
+    + 权限以及事务的实现
+    + 声明式事务的支持
+
+** IOC核心功能
+
++ 控制反转
+  + 将对象创建的权力交给Spring
+  + 也就是new一个对象不在代码中实际的体现出来，而是Spring将其封装起来，便于修改与生成
+  + 向外提供了高效的接口
++ Spring结构
+  + 最上层
+    + 数据访问
+      + JDBC
+      + ORM
+      + OXM
+      + JMS
+      + Transactions
+    + Web
+      + WebSocket
+      + Servlet
+      + Web
+      + Portlet
+  + 中间层
+    + AOP
+    + Aspects
+    + Instrumentation
+    + Messaging
+  + 核心层
+    + Beans
+    + Core
+    + Context
+    + SpEL
+  + 底层
+    + Test
++ 使用方式
+  1. 创建工厂，加载核心配置
+  2. 从工厂中获取对象
+  3. 调用方法执行
++ 配置文件
+  + 头部可以自行设置本地
++ 配置文件
+  + beans
+    + bean
+      + id
+      + name-用于兼容，没什么用
+      + class
+      + scope
+        + singleton-*
+        + prototype-*struct2中的action多例，线程不安全
+        + request
+        + session
+        + globalsession
+      + init-method:初始化销毁方法
++ 控制反转和依赖注入
+  + 控制反转表示将对象的创建操作交给他人
+  + 依赖注入表示将需要的新对象从他人那里获取
++ xml注入方式
+  + bean
+    + name确定唯一的对象
+    + class确定唯一的类
+    + property--set注入
+      + name找到类中的成员
+      + ref找到相应的对象
+    + constructor-arg:构造注入
+  + 数组、集合等注入
+    + property
+      + list
+      + map
+        + entry
+      + props
+        + prop
++ 配置文件拆分
+  + import
+    + resource
++ 整合
+  + 添加spring-web
+  + 配置spring的监听器
+  + 使用WebApp...工厂，通过servletContext进行处理
+
+* Spring的IOC容器的注解形式，AOP技术
+  :LOGBOOK:
+  CLOCK: [2018-04-07 周六 14:42]--[2018-04-07 周六 16:08] =>  1:26
+  :END:
+
+** IOC的注解方式
+
++ 注解需要的包
+  + 需要AOP相关的包
++ 注解相关
+  + Component
+    + 组件注解，表示是一个bean，类路径可以自行读取，id可以使用value配置
+    + 衍生注解：4.X没有什么区别
+      + Controller
+      + Service
+      + Repository
+  + 属性注入
+    + @value:基本类型，可以省略set方法
+    + @Autowired：自动注入
+    + @Qualifier：按照名称注入
+      + @Resource(name):Java注解，Spring支持这种方式
+  + @Scope
+    + 设置单例与多例
+  + Bean作用范围与生命周期
+    + @PostConstruct:init-method
+    + @PreDestory
+  + JUnit的整合
+    + RunWith:SpringJUnit4ClassRunner.class
+    + ContextConfiguration("classpath:ac.xml")
+    + @Autowired
+    + @Test
+
+** 使用AOP对Dao进行增强
+   :LOGBOOK:
+   CLOCK: [2018-04-07 周六 16:52]--[2018-04-07 周六 18:57] =>  2:05
+   :END:
+
+
++ 概念
+  + 面向切面编程
+  + 通过预编译方式和运行期动态代理的方式实现对程序功能进行统一维护的技术
+  + 隔离业务逻辑，降低耦合性，提高可重用性
+  + 思想
+    + 模块化
+    + 横向抽取，取代了纵向继承的方式
+  + 用于
+    + 性能监视
+    + 安全检查
+    + 事务管理
+    + 缓存
++ 底层实现
+  + 动态代理：代理服务器，对请求与返回结果进行包装
+    + JDK：要求有接口
+      + InvocationHandler
+      + 匿名内部类
+        + 外部对象需要final修饰
+        + 执行方法：method.invoke(obj, args)
+    + cglib技术：没有接口，采用生成子类的方式
++ 接口
+  + 加接口就可以更好的进行AOP
+  + service-impl-dao-impl-test
++ 基于AspectJ的AOP-实用性的AOP
++ 术语
+  + Joinpoint（连接点）
+    + 类中所有的方法，就是可以被拦截的地方
+    + 可以被增强的地方
+  + Pointcut（切入点）
+    + 需要增强的那个方法
+  + Advice（通知/增强）
+    + 增强的方法，需要自定义
+  + Introduction（引介）
+  + Target（目标对象）
+    + 被增强的对象
+  + Weaving（织入）
+    + 生成动态代理的过程
+      + cglib是加载的时候，jdk是执行的时候
+  + Proxy（代理）
+    + 获取增强对象的过程
+  + Aspect（切面）
+    + 切入点与通知的统称
++ AOP
+  + 需要aspect的jar
+  + 自定义一个类用于增强：普通的就可以
+  + 在xml中配置为bean
+  + 使用aop:config进行设置
+    + aop:aspect添加增强的bean引用
+      + aop:before中通过method调用增强方法，pointcut找切入点
+  + 通过接口调用bean，不要通过实现类
++ 切入点的表达式
+  + ~execution(public void com.pxshuo.aop.xml.UserDaoImpl.save())~
+  + 规则
+    1) execution：必须有
+    2) public：可以不写
+    3) void:可以确定唯一的方法，必须要有，可以使用*代替
+    4) 包名：可以使用*代替,必须要有
+       - *代表一层
+       - ~*..*~ 代表多层：*..*.UserDaoImpl.save()
+    5) 类名：*DaoImpl：后缀的方式
+    6) 方法：save*()：以save为前缀
+    7) 参数：save(..):任意参数
+       - save(*):一个参数
++ 通知类型
+  + 前置通知
+    + 方法之前
+    + 比如参数校验
+  + 后置通知-after-returning
+    + 方法之后
+    + 比如修改返回值
+  + 最终通知-after
+    + 出现异常也会通知
+    + 比如资源释放
+    + 最终通知与后置通知的顺序和在配置文件中的顺序一致
+  + 环绕通知
+    + 之前之后都会通知
+  + 执行顺序
+    + 前置在后置和最终之前执行
+    + 后置与最终的执行顺序和配置的顺序一致
+    + 环绕包含前置与后置，执行顺序与配置顺序一致
+      + 编号：1：前置-1，2：后置-2，3：最终-3，4：环绕-4a，4b
+      + 记录:配置+结果
+        + 1-2-3
+          + 1-2-3
+        + 1-3-2
+          + 1-3-2
+        + 1-2-3-4
+          + 1-4a-4b-3-2：栈
+        + 1-2-4-3
+          + 1-4a-3-4b-2：栈
+        + 1-4-2-3
+          + 1-4a-4b-2-3：正规
+        + 4-1-2-3
+          + 4a-1-4b-2-3:正规
+
+* Spring的事务管理，JDBC模板
+
+* 框架整合
