@@ -1,0 +1,11 @@
+* 操作记录
+* 错误处理
+
+** 1. 外部使用ndnSIM示例，也就是外部工作空间
+
+1. NS-3 or one of the required NS-3 modules not found
+   + 查看日志
+     + No package 'libns3-dev-core-optimized' found
+     + 通过优化设置安装 :: 解决
+2. NS-3 执行 ~./waf install~ 失败，报错为某些文件创建失败
+   + 权限不够，应使用 ~sudo ./waf install~

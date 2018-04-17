@@ -1,0 +1,14 @@
+* Git日常操作记录
+
++ pull
+  + ~git pull origin master:master~ :: 远程主机名 远程分支名:本机分支名
++ push
+  + ~git push origin master:master~ :: 远程主机名 本机分支名:远程分支名
+
+
+* Git学习计划
+
++ [ ] 计划 [0/2]
+  + [ ] 规划learnRecord
+    + [ ] 分版本
+  + [ ] 日常执行文档操作
