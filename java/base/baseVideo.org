@@ -1,0 +1,297 @@
+* 14.正则表达式
+  :LOGBOOK:
+  CLOCK: [2018-04-15 周日 13:56]--[2018-04-15 周日 14:18] =>  0:22
+  :END:
+
+** Java中的正则表达式
+
++ ~String regex = "[1-9]\\d{4,14}";~
+  + ~str.matches(String regex)~
++ str.split
+  + ~str.replaceAll("(.)\\1+", "$1")~
+    + 将重复的字符替换为单一的字符
++ Pattern，Matcher
+  1. ~Pattern p = pattern.compile("a*b")~
+  2. ~Matcher m = p.matcher("aaaaab")~
+  3. ~boolean b = m.matchers()~
++ 获取字符串中的某些字符-类似于Iterator
+  1. ~boolean b = m.find()~
+  2. ~String s = m.group()~
+
+** 正则表达式
+
++ 基本
+  + 1+ :: 1到多次
+  + \\. :: 转义 ~.~ 
++ 分组
+  + (.)\\1(.)\\2
+
+* 15.集合框架
+  :LOGBOOK:
+  CLOCK: [2018-04-15 周日 17:52]--[2018-04-15 周日 20:03] =>  2:11
+  CLOCK: [2018-04-15 周日 15:12]--[2018-04-15 周日 16:24] =>  1:12
+  :END:
+
+** 1.体系结构
+
++ 基础
+  + 创建引用类型数组： ~Student stu = new Student[5]~
++ 集合框架
+  + 变化的数组
+  + 集合只能存储引用数据类型
+  + 区分
+    + 数组 :: 长度固定的时候
+    + 集合 :: 长度不固定
++ 集合继承体系
+  + Collection :: 单列集合的根接口
+    + List :: 有序，有索引，可重复存储
+      + ArrayList :: 数组实现
+      + LinkedList :: 链表实现
+      + Vector :: 已经被ArrayList替代了，数组实现
+    + Set :: 无序，无索引，不可以重复
+      + HashSet :: 哈希算法
+      + TreeSet :: 二叉树 
++ ~@SuppressWarnings({"rawtypes", "unchecked"})~
++ 类型提升与向下转型
+  + 向上抽象
+  + 向下具体
+
+
++ Collection
+  + 基本功能
+    + add :: return true;
+      + 考虑了List与Set的特点
+    + toString :: 已经经过了重写
+    + remove :: 删除指定元素
+    + clear :: 清空
+    + contains :: 是否包含
+    + isEmpty :: 是否为空
+    + size :: 元素个数
+  + toArray :: 将集合转化为数组
+  + all相关
+    + addAll :: 加进来一个集合，添加所有
+    + removeAll :: 删除交集
+    + containsAll :: 是否包含：[a,b,c,d]->[a,b,b]-->true
+    + retainAll :: 取交集
+      + 将交集传给当前调用的引用
+      + 如果已经改变，返回true，否则返回true
+      + ~s1.retainAll(s2);s1="[a,b]"~
+  + 迭代器
+    + iterator()
+      + it.hasNext() :: 判断是否有元素
+      + it.next :: 获取刚才next过的那个元素
+    + 原理及源码解析
+      + ArrayList中
+        + Itr实现了Iterator接口
+        + 讲解的比较简单
+
+** 2.List
+
++ 基本接口
+  + ~add(index,element)~ :: 不可以跨过多个空元素进行添加
+    + 比如[1,2,3],最多只能add(4,e);否则越界
+    + add(2,e)则为插入
+  + ~remove(index)~
+    + 删除不会自动装箱，所以Integer类型需要指明对象
+    + 错误：：没有get(ele)操作
+  + ~get(int)~ :: 根据索引获取元素
+  + ~set(index, element)~ :: 设置值而不是插入值
++ 并发修改异常
+  + Iterator遍历的时候，list进行了添加操作，会造成问题
+  + 解决方案：ListIterator
+    + 其中有add方法
+    + 会添加到遍历的那个元素的后面
+    + hasPrevious增加了一点功能
++ Vector特有功能
+  + 一些相似的功能，只是名字有些长
+  + addElement :: add
+  + elementAt :: get
+  + Enumeration :: iterator
+
++ 数组与链表
+  + 数组
+    + 查询快，修改快
+    + 增删慢--指的插入
+  + 链表
+    + 查询慢，修改慢--修改指的是查找修改位置
+    + 增删快
+    + ~SIZE >> 1~ Size除以2
+
+*** 总结-List三个子类的特点
+
++ ArrayList
+  1. 底层是数组，查询快，增删慢
+  2. 线程不安全，效率高
++ Vector
+  1. 底层是数组，查询快，增删慢
+  2. 线程安全，效率低
++ LinkedList
+  1. 底层数据结构为链表，查询满，增删快
+  2. 线程不安全，效率高
++ 使用场景
+  + 查询多 :: ArrayList
+  + 增删多 :: LinkedList
+  + 都多 :: ArrayList
++ 重点
+  + Vector线程安全
+  + 可以通过方法将不安全的类变为安全的
+
++ 总结
+  1) Collection体系架构
+  2) List与Set的区别
+  3) 迭代器并发修改异常-listiterator
+  4) 三个子类的区别与特性
+
+*** 进阶
+    :LOGBOOK:
+    CLOCK: [2018-04-16 周一 10:05]--[2018-04-16 周一 10:56] =>  0:51
+    CLOCK: [2018-04-15 周日 21:31]--[2018-04-15 周日 23:02] =>  1:31
+    :END:
+
++ contains底层依赖equals
+  + remove也是-有重复元素的情况下，只是删除第一个
++ LinkedList
+  + ~addFirst~
+  + ~addLast~
+  + ~getFirst~
+  + ~getLast~
+  + ~removeFirst~
+  + ~removeLast~
+  + ~get(index)~ :: index < (size >> 1)
+  + ~toArrays(String[length])~ :: length较小时，转化为原数组长度，较大时，转化的数组长度为length
++ 栈和队列
+  + 栈
+    + push :: addLast
+    + pop :: removeLast
+  + 队列
+    + push :: addLast
+    + pop :: removeFirst
++ 泛型
+  + 设定一种数据类型的范围
+  + 将运行期的错误转换到编译期，提高安全性
+    + 在编码时就给出提示
+  + 泛型的由来
+    1) 通过Object转型问题引入
+       1) 传入传出时的转型问题
+       2) setObj(Person),getObj->Person
+    2) ~public class Tool<P>~ :: 类
+    3) ~public <T> void show(T t)~ :: 方法
+       1) ~a.show(Person)~
+       2) 最好与类的泛型一致
+    4) 静态方法需要声明自己的泛型
+       1) 静态方法创建随着类的加载而加载
+  + 泛型在接口上的使用
+    + ~interface Inter<T>~
+    + ~class Demo implements Inter<String>~
+      + 推荐
+    + ~class Demo2<T> implements Inter<T>~
+  + 泛型通配符<?>
+    + ~List<?> list = new Inter<>();~
+    + ~? extends E~ :: 向下限定
+      + ~addAll(Collection<? extends E> c)~
+    + ~? super E~ :: 向上限定
+
++ 三种迭代能否删除 :: 都可以删除了，测试环境1.8
+  + for :: 可以删除，需要调整索引
+  + Iterator :: 可以删除，需要使用 ~it.remove()~
+  + foreach :: 不可以删除--现在可以删除了
+
++ 可变参数
+  + ~public void print(int... arr)~ :: 本质上是一个数组
+  + ~public void print(int[] arr)~ :: 等同
+  + 多个参数的情况下，可变参数需要是最后一个，即使不同类型也不可以
++ Arrays
+  + ~asList~ :: 数组转化成集合
+    + 数组转换为集合之后，不可以增加或减少元素
+    + 生成的集合不是 ~ArrayList~ ，而是 ~java.util.Arrays$ArrayList~,一个内部类
+    + 传入一个 ~int[]~ 不会得到多个元素的int集合，而是得到只有一个元素，其为数组的集合
+    + 想要正常使用，需要使用包装类，才可以识别为一个对象数组
+
++ 总结
+  1) remove与contains的原理与细节
+  2) 泛型使用方法与泛型通配符
+  3) 三种迭代特点
+  4) 数组与集合的相互转换
+     1) asList的特点
+
+** 3.Set
+   :LOGBOOK:
+   CLOCK: [2018-04-16 周一 11:49]--[2018-04-16 周一 13:27] =>  1:38
+   :END:
+
++ 无序，元素不重复
++ HashSet，LinkedHashSet(存取相同)，TreeSet（排序）
+
+*** Set
+
+*** HashSet
+
++ 实现Set
+  + 不保证Set的迭代顺序
+  + 不保证顺序永久不变--每次遍历的结果顺序可能不同（修改后可能有变化）
+  + 唯一性通过hashCode与equals保证
+    + hash不同就不用通过equals进行比较
+    + hash相同，equals不同时，使用了桶结构（链表）
+      + hashCode :: int
+      + 属性相同，hash一定相同，属性不同，hash属性尽量不同 
+    + 可以自动生成：通过乘法来减少碰撞的概率
+      + ~result = 31 * result + age~
+        + result为name的哈希，name为空时得0
+        + 31为质数，公约数少
+        + 2^5-1 :: (2 << 4) -1
+        + getClass :: 字节码对象唯一
+    + add后，先查看是否有相似的hashCode的对象，如果有载查询equals
+
+*** LinkedHashSet
+
++ 特点
+  + 使用链表实现
+  + Set集合中唯一一个保证存取顺序相同的
+  + 效率稍低
++ 保证顺序可以使用本类
+  + char :: 包装类 ~Character~
++ 去除重复元素
+  + ~linkSet.addAll(list)~
+  + ~list.clear()~
+  + ~list.addAll(linkSet)~
+
+*** TreeSet
+
++ 对元素进行排序，可以保持唯一
+  + 需要实现 ~Comparable~ 接口，用于排序
+    + 正数：顺序不变
+    + 负数：双方交换
+    + Integer :: this.value - otherValue
+      + 抽象形式，实现使用的是0,-1,1的条件判断
+  + 原理：负数存在左边（小的），正数存在右边。节点调用对比
++ 比较器排序
+  + 构造的时候传入 ~Compartor~ 实现
+  + ~return 1~ 表示 ~o1~ 比较大
+  + 有一个问题，长度相同时由于set特性不会存入，所以需要str.hashCode进行区分
+  + 保留重复元素进行排序
+    + 比较器 ~return num == 0 ? 1 : num~
+    + 不使其返回0即可
+
+*** 总结
+
++ HashSet
+  + hashCode与Equals保证唯一
+    + hashCode自定义 :: 乘以31-> (2 << 4) -1
++ TreeSet
+  + Comparable 接口
+  + Compartor 构造
+    + 实现保留重复 :: 去除0的返回值
+
+
+
+** 4.Map
+   
+* 19.异常与File
+  
+* 20.IO流
+
+* 24.多线程
+
+* 26.网络编程
+
+* 27.反射

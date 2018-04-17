@@ -207,3 +207,105 @@
   + ~maven tomcat:run~
   + ~maven package~
   + ~maven clean~ 清理当前目录下创建的工程
+
+
+* Maven回顾【1】
+  :LOGBOOK:
+  CLOCK: [2018-04-12 周四 12:40]--[2018-04-12 周四 13:24] =>  0:44
+  :END:
+
+** Maven基本概况
+
+1. 用于管理项目的jar包，减少项目的体积，方便维护项目
+2. 将jar存储在本地仓库中，通过索引导入到项目中去
+   1. 相当于引入jar所在位置并进行build path
+   2. 外部jar
+3. 生命周期：清理-编译-测试-报告-打包-部署
+   1. 按照顺序执行
+4. 命令行基本执行
+   1. ~mvn tomcat:run~
+   2. ~mvn package~
+   3. ~mvn clean~
+   4. ~mvn compile~
+   5. ~mvn test~
+   6. ~mvn install~
+5. 目录结构
+   1. bin :: 命令文件
+   2. boot :: 引导程序、类加载器
+   3. lib :: Maven依赖
+   4. conf :: 配置文件
+6. 环境配置
+   1. MAVEN_HOME
+   2. path
+   3. ~mvn -v~ :: 测试版本
+   4. 仓库配置
+      1. conf/setting.xml
+         1. localRespository
+7. 项目结构
+   1. pom.xml
+   2. src
+      1. test
+         1. java
+         2. resources
+      2. main
+         1. java
+         2. resources
+         3. webapp
+            1. WEB-INF
+
+** Maven插件配置
+
+1. Eclipse中Maven的配置
+   1. Windows->Preferences->Maven
+      1. 选择Maven以及配置文件的位置
+   2. Windows->show view->other->maven responsitory
+      1. 可以查看本地仓库以及重构索引
+
+** Maven具体的配置
+
++ pom.xml [0/0]
+  1) 添加依赖：dependencies
+     - dependeny
+       - scope :: 适用范围
+       - exclusions :: 去除这个依赖包中的某些依赖
+     - 原则
+       - 先声明的优先导入：不是覆盖
+       - 路径浅的优先导入：依赖链
+  2) JDK版本设置
+     - build
+       - plugins
+         - plugin
+           - groupId :: org.apache.maven.plugins
+           - artifactId :: maven-compiler-plugin
+           - configuration
+             - source
+             - target
+             - encoding
+  3) 版本锁定:dependency_management
+  4) 版本设置:properties,通过${key}引用
+
+** Maven工程拆分与聚合
+
+1. 父工程
+   1. 打包方式为pom
+   2. pom.xml中放置公用的jar包
+      1. 子项目名会出现在配置中
+2. 子模块
+   1. 配置父工程
+      1. parent
+         1. groupId,artifactId,version：能找到父工程即可
+   2. 子模块间的依赖自行调用即可
+
+** 其他
+
++ PO规范
+  + 不用final修饰
+  + 基本类型使用包装类替换
+  + 实现序列化
++ 主键生成策略
+  + identity :: 数据库自行生成自增的ID
+  + native :: hibernate进行判断使用什么类型
+  + sequence :: 使用sequence机制生成
+  + uuid :: 同一时空内不会重复
+  + increment :: 自增主键
+  + assigned :: 由外部程序生成
