@@ -220,7 +220,102 @@
           + 1-4a-4b-2-3：正规
         + 4-1-2-3
           + 4a-1-4b-2-3:正规
++ AOP注解形式
+  + xml
+    + 增强类的bean
+    + 开启自动代理：
+      + ~<aop:aspectj-autoproxy>~
+  + 增强类
+    + @Aspect：类上
+    + @Before(value=execution...):方法上，aspect中的注解
++ 通知类型和通用切入点
+  + 自定义切入点
+    + 添加方法：mypoint
+      + 方法上添加注解 ~@Pointcut(value="execution")~
+    + 使用方法： ~@Before(value="MyAnno.mypoint()")~
+
 
 * Spring的事务管理，JDBC模板
+
+** JDBC模板
+
++ JdbcTemplate
+  + 先创建数据库连接池
+    + 传入驱动、数据库链接、用户名、密码
+  + 将连接池传入模版中
+    + 之后使用即可
++ Spring管理
+  1) 将新建的操作交给bean
+  2) 将传入参数交给注入即可
+  3) 切换数据库连接池只需要修改配置文件即可
++ 数据库分页
+  + ~limit 20, 30~
+  + 分页参数：pageSize,pageNumber,totalPage,totalNumber
+
+** 事务管理
+
++ 相关类和API
+  1) ~PlatformTransactionManager~ 接口
+     1) 平台管理器-使用这个进行管理
+     2) 实现类
+        1) 很多
+        2) DataSourceTransactionManager等等-普通
+        3) HibernateTransactionManager-Hibernate框架
+     3) 常用接口
+        1) ~void commit(status)~
+        2) ~TransactionStatus getTransaction(defintion)~
+        3) ~void rollback(TransactionStatus status)~
+  2) ~TransactionDefinition~ 接口
+     1) 事物定义信息-用这个进行初始化定义
+     2) 设置隔离级别
+     3) 设定事务的传播级别
+  3) ~TransactionStatus~ 接口
+     1) 事物的状态-用这个保存状态
+     2) 事物的传播行为
+        1) 两对事务如何合并
+        2) 一般用默认值
+           1) 一组：保证AB在同一个事务中
+           2) 二组：保证AB不在同一个事务中
+           3) 三组：A执行后设置一个回滚点，B可以回滚到一开始，也可以回滚到这里
++ 实现
+  + Service层
+    + 执行in，out
+  + Dao层
+    + 可以继承JdbcDaoSupport自动注入JdbcTemplate类
+      + support中提供如果没有模版可以自行创建模版，但是需要提供dataSource
+        + 这样就可以省去模板的配置
+  + 查看事务
+    + 在in out之间抛出异常(10/0),查看事务是否完整
++ 事务管理 ： 在业务层添加事务 
+  + 手动编程：不需要
+    + [都需要]配置平台事务管理器，需要注入连接池：需要连接来管理实务
+    + 使用模板类TransactionTemplate ： 注入平台管理器
+    + 把模版注入到对应的Service类中
+    + 通过execute方法执行事务，和动态代理类似，回调函数使用外部变量时，外部变量需要用final修饰
+  + 声明形式：一般使用的方式
+    + XML形式
+      + 先配置增强类：官方
+        + ~tx:advice~ 配置id与事务平台管理器
+          + ~tx:attributes~
+            + ~tx:method~ 配置事务作用的方法
+            + 可以有多个
+      + 再配置AOP切面
+        + ~aop:config~
+          + ~aop:advisor~ pointcut advice专用的切面配置，自定义使用aspect即可
++ 注解形式
+  + 开启注解事务
+    + ~tx.annotion-driven transaction-manager=""~
+  + 在对应的类或者方法上添加 ~@Transaction~ 注解
+
++ Eclipse
+  1. 统一工作空间编码：utf-8
+  2. jsp编码：utf-8
+  3. 配置Tomcat服务器
+     1. 服务器界面，右键open
+     2. server Location 使用Tomcat的工作空间
+     3. 修改deply path：wepapps
+  4. SSH配置文件
+     1. 可以自己加约束
+      
 
 * 框架整合

@@ -1,0 +1,4 @@
+* 01.编写第一个Android程序
+注： [[https://www.52pojie.cn/thread-648530-1-1.html][教我兄弟学Android逆向]]
+
++ 第一个安卓程序

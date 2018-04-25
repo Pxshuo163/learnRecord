@@ -283,9 +283,157 @@
     + 实现保留重复 :: 去除0的返回值
 
 
-
 ** 4.Map
-   
+   :LOGBOOK:
+   CLOCK: [2018-04-19 周四 11:16]--[2018-04-19 周四 11:34] =>  0:18
+   CLOCK: [2018-04-18 周三 12:48]--[2018-04-18 周三 15:40] =>  2:52
+   :END:
+  
++ 双列集合的根接口
+  + Collection是单列集合
++ API中
+  + 将键映射到对象
+  + 一个映射不能包含重复的键
+  + 每个键最多映射一个值
+  + Map的键是唯一的，Collection的Set也是唯一的
+    + Map :: 针对键有效
+      + HashMap
+        + LinkedHashMap
+      + TreeMap
+    + Set :: 针对元素有效
+      + HashSet  :: 底层依赖的HashMap
+        + LinkedHashSet
+      + TreeSet
++ [ ] 为什么是Set依赖Map呢
+  + 好处都有啥？
+    + 可以共用一套Hash算法
+    + 反过来难以解决映射问题
+
+*** Map
+
++ HashMap无法保证存取一致
++ V put(K, V);
+  + 返回被覆盖的值,如果没有，返回null
+  + 相同的键不存储，覆盖值
++ clear
++ remove(key)
+  + 这些判断的依据是什么？
+  + 貌似不排序依靠hashcode与equals
+  + 排序依靠comparable
++ containsKey
++ containsValue
++ isEmpty
++ Set<Map.Entry<K, V>> entrySet :: 获取键值对的集合
++ keySet :: 获取键的集合
++ get(key) :: 根据键获取值
++ values() :: 获取值的集合
++ size() :: 03start
+
++ Map遍历
+  + 不能使用Iterator
+  + 可以使用entrySet [0/1]
+    + [ ] HashSet是基于HashMap实现的
+    + Map中包括了Set的相关东西
+  + 可以使用foreach进行便利
+
+*** HashMap
+
++ Entry
+  + 实现了Map.Entry
++ 保证键唯一
+  + hashCode + equals
+  + toString重写
++ 取代了Hashtable
+  + 共同点
+    + 都使用Hash算法
+    + 都是双列集合
+  + 区别
+    + HashMap
+      + 线程不安全，JDK1.2 : rehash时会产生循环链表
+      + 可以保存null的键与值
+    + Hashtable
+      + 线程安全，JDK1.0
+      + 不可以保存null的键与值
++ Hash算法使用的是 ~&~ 的方式，速度较快
+  + 所以最好长度使用2的次方，默认是16
++ 线程不安全，由于rehash时可能会生成环链
+
+*** LinkedHashMap
+    :LOGBOOK:
+    CLOCK: [2018-04-19 周四 11:14]--[2018-04-19 周四 11:16] =>  0:02
+    :END:
+
++ 特点
+  + Linked :: 保证怎么存怎么取
+  + HashMap :: 保证键值对的存储形式
+
+
+*** TreeMap
+
++ 特点
+  + comparable
+  + compartor :: 对比键的值
+
+** Collections
+
++ 方法
+  + sort :: 排序
+  + binarySearch :: 二分查找
+    + 如果未找到，则返回[负的插入点-1] 
+  + T max :: 最大值
+  + reverse :: 反转
+  + shuffle :: 随机替换，洗牌
++ String str.concat(str2) :: 连接两个字符串 
++ 斗地主demo
+  + 洗牌洗索引
+  + 发牌后排序即可
+
+** 5.泛型固定下边界 [0/1]
+
++ ? super E :: 泛型固定下边界
+  + 可以接收父类
++ ? extend E :: 泛型固定上边界
+  + 只要继承自E都可以
+  + 可以接收子类对象
++ [ ] PECS 原则
+  + 如果要从集合中读取类型T的数据， 并且不能写入，可以使用 上界通配符(<? extends>)—Producer Extends。
+  + 如果要从集合中写入类型T 的数据， 并且不需要读取，可以使用下界通配符(<? super>)—Consumer Super。
+
+  + 如果既要存又要取， 那么就要使用任何通配符。
+
+** 6.总结 [0/8]
+
++ [ ] 体系结构 [0/2]
+  + [ ] 概念
+  + [ ] 体系结构
++ [ ] Collection [0/1]
+  + [ ] 基本功能
+    + all 包含的范围
++ [ ] List [0/7]
+  + [ ] 基本接口
+    + Integer对象的删除问题
+  + [ ] 迭代器的问题 :: 并发修改异常
+  + [ ] 数组与链表的区别
+  + [ ] List基本总结
+  + [ ] contains底层依赖
+  + [ ] 迭代是否可以删除
+  + [ ] asList
++ [ ] Set [0/3]
+  + [ ] HashSet [0/1]
+    + [ ] 基本特点
+  + [ ] LinkedHashSet
+  + [ ] TreeSet
++ [ ] Map [0/4]
+  + [ ] 基本概念
+  + [ ] HashMap
+  + [ ] LinkedHashMap
+  + [ ] TreeMap
++ [ ] Collection [0/0]
++ [ ] 泛型固定下边界 [0/0]
++ [ ] 随手笔记 [0/2]
+  + [ ] 引用类型数组创建
+  + [ ] 注解去除警告
+
 * 19.异常与File
   
 * 20.IO流

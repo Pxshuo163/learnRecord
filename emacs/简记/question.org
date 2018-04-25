@@ -1,0 +1,6 @@
+* 问题总结
+
+** 安装问题
+
++ spacemacs 安装时找不到init.el(实际存在)，--debug-init显示require(bind-map)
+  + 解决方案：网络不好，使用国内镜像即可 http://www.4gamers.cn/
