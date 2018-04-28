@@ -1,0 +1,77 @@
+* 整体结构
+
++ ~web.xml~
+  + 监听器
+    + context-param :: servletContext
+      + ~applicationContext-*.xml~
+        1. dao
+           1. 数据源
+              1. ~db.properties~
+              2. dataSource :: bean
+           2. mybatis
+              1. sqlSessionFactory :: bean
+                 1. dataSource
+                 2. sqlMapConfig
+                    + 空
+              2. MapperScannerConfigurer :: bean
+                 1. dao的位置
+        2. service
+           1. context:component-scan
+              1. service的位置
+        3. transaction
+           1. 事务管理器
+              1. 注入dataSource
+           2. tx:advice :: 设置事务的隔离与作用位置
+           3. aop:config :: 设置aop切入点
+    + ContextLoaderListener :: Spring容器 [未理解]
+  + Servlet
+    + SpringMVC :: 前端控制器
+      + ~SpringMVC.xml~
+        1. context:conponent-scan :: 扫描controller
+        2. mvc:annotation-driven :: 配置最新的处理器映射器和处理器适配器
+           1. conversion：不知道干嘛的--自定义转换器
+        3. ViewResolver :: 视图解析器 bean
+           1. 配置url前缀后缀
+        4. conversion :: Bean
+           1. 将需要转成Data数据的string转换为data
+           2. 相当于request的Listener
+        5. 全局异常处理器 :: bean
+        6. 文件上传 :: bean
+        7. mvc:interceptors :: 配置拦截器-自动登录
+           1. 类似于filter，通过注入的形式进行处理
+  + 过滤器
+    + post乱码
+
+* 梳理流程
+
+1. 通过SpringMVC访问页面
+   1. 使用SpringMVC代替Servlet
+      1. web.xml 中
+         1. url的配置使用 ~/*~ 会找不到handler，去掉*即可
+      2. 添加SpringMVC.xml
+         1. 添加注解扫描
+         2. 添加注解形式的处理器映射器和处理器适配器
+         3. 添加注解形式的视图解析器
+            1. 添加文件位置的前后缀
+      3. 添加前台页面
+      4. 添加controller
+         1. 增加controller注解
+         2. 增加RequestMapping注解
+2. 加入Spring支持
+   1. 添加pojo
+      1. 基本javaBean即可
+   2. 添加dao
+      1. 使用Repository注解实现类
+   3. 添加service
+      1. 使用service注解实现类
+      2. 需要dao注入
+   4. controller获取参数
+      1. name/password/request=获取session
+         1. 添加servlet api
+      2. 需要service注入
+   5. web.xml
+      1. 添加context-param
+         1. 添加配置文件
+      2. listener
+         1. 添加ContextLoaderListener
+3. 加入MyBatis
