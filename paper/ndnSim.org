@@ -9,3 +9,9 @@
      + 通过优化设置安装 :: 解决
 2. NS-3 执行 ~./waf install~ 失败，报错为某些文件创建失败
    + 权限不够，应使用 ~sudo ./waf install~
+
+* 问题处理
+
+1. VS Code中需要重新设置includePath
+   1. 先到对应文件下编译一下： ~g++ a.C -v~ 找到需要include的path [error]
+   2. 点击波浪线，出现小灯泡，点击小灯泡选择解决方案即可
