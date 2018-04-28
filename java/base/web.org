@@ -1,0 +1,238 @@
+* Web基础
+
++ [ ] xml与Tomcat
++ [ ] servlet
++ [ ] request与response
++ [ ] cookie与session
++ [ ] 事务
++ [ ] listener与filter
+
+* 1. Xml与Tomcat
+  :LOGBOOK:
+  CLOCK: [2018-04-26 四 10:46]--[2018-04-26 四 11:05] =>  0:19
+  :END:
+
+** 1.1 XML
+
++ 特殊字符需要转义
+  + < > & 等
++ xml组成部分
+  + 声明
+    + ~<?xml ... ?>~
+    + 必须在第一行，前面不可以有空格
+  + 元素(标签)
+  + 属性
+  + 注释
+    + ~<!-- 注释 -->~
+  + CDATA
+    + 通过CDATA保证原样输出，不用转义
+      + ~<![CDATA[内容&内容]]>~
+  + 约束 :: 设定文档中包含哪些元素
+    + DTD约束
+    + SCHEMA
+
+** 1.2 Tomcat
+
++ web项目目录结构
+  + myWeb（项目名称） web2.5标准
+    + html css js image等目录
+    + WEB-INF :: 浏览器无法访问
+      + lib
+      + classes
+      + web.xml :: 项目的核心配置文件
+
+* 2. Servlet
+  :LOGBOOK:
+  CLOCK: [2018-04-26 四 11:09]--[2018-04-26 四 12:29] =>  1:20
+  :END:
+
+** 2.1 Http协议
+
++ 超文本传输协议
++ 请求
+  + 请求行
+    + 第一行
+    + 请求方式+访问的资源+协议/版本
+    + ~GET /day/intex.html HTTP/1.1~
+      + 会将链接保留一段时间，1.0用完就断
+  + 请求头
+    + 第二行到空行为止
+    + key/value
+    + 请求头
+      + Referer :: 来自那个页面，防盗
+      + user-agent :: 当前系统与浏览器信息
+      + cookie :: 一个缓存
+  + 请求体
+    + 空行以下的内容
+    + POST请求中包含
++ 响应
+  + 响应行
+    + 第一行
+    + 协议/版本+状态码+状态码说明
+    + HTTP/1.1 200 OK
+      + 200 :: 成功
+      + 302 :: 重定向
+      + 304 :: 读取缓存
+      + 404 :: 找不到资源
+      + 500 :: 服务器错误
+  + 响应头
+    + 第二行到空行
+    + 响应头
+      + Content-Type :: 数据类型
+      + Location :: 跳转方向，与302一起使用
+      + Last-Modified :: 最后修改时间
+      + Refresh :: 定时刷新
+      + Content-Disposition :: 下载
+      + Set-Cookie :: 设置缓存
+  + 响应体
+    + 空行以下
+    + 展示页面的内容
+
+** 2.2 servlet
+
++ 运行在服务器端的一个程序
+  + 处理业务逻辑，生成动态web内容
++ 编写步骤
+  + 编写一个类
+    + 继承HttpServlet
+    + 重写doGet与doPost方法
+      + req.GetParameter
+      + resp.getWriter
+  + 编写配置文件 web.xml
+    + 注册servlet
+    + 绑定路径(url)：map url
++ 体系结构
+  + Servlet
+    + init
+    + service
+    + destory
+  + ↑- GenericServlet
+    + 没有service
+    + 空参init，用于重写
+  + ↑- HttpServlet
+    + 重载service根据请求方式的不同调用相应的doXXX方法
+  + ↑- 自定义Servlet
++ [ ] Servlet生命周期
+  + init
+    + 只执行一次
+    + 服务器在第一次访问servlet时创建一次，可以配置为启动时创建
+  + service
+    + 服务器收到请求时执行
+    + 执行多次
+  + destory
+    + 只执行一次
+    + servlet被移除或者服务器正常关闭的时候
+  + 单实例多线程
+    + 多线程调用service方法执行
+    + servletContext全局管理者 : 线程安全的Map
+
+* 3. Request与Response
+
+** 3.1 Response
+
++ 文件下载
+  + response + 文件下载
+  + 编码下载
+    + 设置文件的mine类型
+      + context.getMimeType(文件名)
+    + 设置下载头信息
+      + content-disposition,attachement;filename
+    + 提供流
+      + 流方式输出
+      + 可以使用common.io
+      + 对拷流 ：： 将输入流拷入输出流
++ 重定向
+  + 设置头状态
+  + 设置重定向位置
++ 字节流字符流不可以同时用
+  + get
+
+** 3.2 Request
+
++ 方法
+  + getMethod :: 获取请求方法
+  + getRomateAddr :: 获取请求者IP
+  + getContextPath :: 获取项目名称
+
+* 4. cookie与Session
+
++ 讲解的一般
+
+* 5. 事务
+
++ 将线程与connection绑定 使用 ~private atatic ThreadLocal thread.set(conn)~
+  + 用完之后remove
+  + ~map.put(currentThread,conn)~
+  + ~map.get(currentThread)~
++ 事务的特性
+  + ACID
+  + 原子性：操作单元不可分割
+  + 一致性：事务执行前后，状态保持一致（转账前后1000的总资产不变）
+  + 隔离性：事务执行时不受其他事务的影响
+    + 脏读
+      + 读取到了另一个事务没有提交的操作
+    + 不可重复读
+      + 两次查询结果不一致
+    + 幻读
+    + 隔离级别
+      + read uncommited :: 不解决问题
+      + read commited :: 避免脏读
+      + repeatable read :: 避免脏读和不可重复读
+      + serializable :: 串行化 避免所有的问题
+  + 持久性提交或回滚要提交到持久层
+  + 分页
+    + 总页数
+      + (int)Math.ceil(totalCount*1.0/pageSize) :: 向上取整
+    + 封装为一个JavaBean PageBean
+      + List<T> list :: 查询
+      + pageNum :: 传递
+      + pageSize :: 固定
+      + totalCount :: 查询
+      + totalPage :: 计算
+
+* 6. Listener与Filter
+
+** 监听器-listener
+
++ 监听web中的域对象
+  + ServletContext
+  + ServletRequest
+  + HttpSession
+  + 监听三个对象
+    + 创建与销毁
+      + ServletContextListener
+        + 用来加载配置文件，服务器启动时执行
+      + ServletRequestListener
+        + 权限
+      + HttpSessionListener
+        + 维护session
+  + 属性变化 监听三个对象的属性变化
+    + ServletContextAttributeListener
+    + ServletRequestAttributeListener
+    + HttpSessionAttributeListener
+  + session中的JavaBean的变化
+    + HttpSessionActivationListener(钝化和活化)
+    + HttpSessionBindingListener(绑定与解绑)
++ 步骤
+  + 实现类
+  + 重写方法
+  + 配置Listener
+    + ~<listener>~
+
+** Filter过滤器
+
++ 过滤请求与相应
+  + 自动登录
+  + 统一编码
+  + 过滤关键字
++ 编写步骤
+  + 编写一个类
+    + 实现Filter接口
+    + 重写方法
+      + 放行 :: chain.doFilter 相当于增强
+  + 编写配置文件
+    + 注册filter
+    + 绑定路径
+  + 测试
++ 生命周期
+  + 同Servlet
