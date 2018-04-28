@@ -1,0 +1,28 @@
+* SpringMVC学习笔记
+  :LOGBOOK:
+  CLOCK: [2018-04-25 三 21:58]
+  :END:
+
+* 1.介绍
+
++ 是一个表现层框架
+  + 从请求中接收传入参数
+  + 将处理结果返回给页面
++ 处理流程
+  + 用户 - [请求数据]->
+    + <-[响应用户] - 前端控制器DispatcherServlet - [做一些事情]->
+      + [请求查询Handler]->
+        + <-[返回处理器执行链] - 处理器映射器HandlerMapping
+      + [请求执行Handler]->
+        + <-[返回ModelAndView] - HandlerAdapter处理器适配器[提取特征] - [执行Handler]->
+          + <-[返回ModelAndView] - Handler处理器
+      + [请求解析视图]->
+        + <-[返回渲染结果] - 视图解析器
+      + [渲染视图]
+
+* 2.入门程序
+
++ web.xml
+  + 
+
+* 3.SpringMVC架构
