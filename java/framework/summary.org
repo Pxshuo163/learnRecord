@@ -75,3 +75,27 @@
       2. listener
          1. 添加ContextLoaderListener
 3. 加入MyBatis
+   1. dao层
+      1. 添加数据源
+         1. bean
+         2. 数据库配置文件
+      2. 添加MyBatis工厂
+         1. SqlSessionFactoryBean
+            1. dataSource
+            2. configLocation
+      3. 添加Mybatis的Mapper
+         1. 扫描包
+   2. mapper
+      1. 添加接口
+      2. 添加sql文档
+   3. 问题
+      1. java.lang.NoClassDefFoundError
+         1. 缺少包
+            1. 需要spring-tx
+            2. 需要spring-jdbc
+4. 添加事务
+   1. 添加事务管理器:bean
+   2. 添加通知设置
+      1. 具体设定有哪些方法需要如何的事物管理
+   3. aop切入方法中去
+      1. 采用advisor的方法设定通知设置与切入点

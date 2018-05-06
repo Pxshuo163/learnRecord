@@ -255,3 +255,103 @@
       5. 引入文件通过类的全路径引入
    3. 使用
       1. 可以通过sqlSession.getMapper直接获取实例
+
+
+** 数据库操作
+
++ 增加
+  + ~insert into table_name values (col1, col2, ...)~
+  + ~insert into table_name (colname1,2, ...) values (col1, col2, ...)~
+  + 单条操作，返回成功失败即可
++ 删除
+  + ~delete from table_name where col_name = value_query~
+  + 单挑操作，返回成功失败即可
++ 修改
+  + ~update table_name set col_name = value where col_name = value_query~
+  + 单条操作，返回成功失败即可
++ 查询
+  + ~select col_name* from table_name where col_name = value_query order by col_name limit begin end~
+  + 单条或者多条
+  + 关联查询
+
+** 从入门到放弃
+
+1. 入门阶段
+   1. 基于JDBC的封装
+   2. 整体结构
+      + main
+        + java
+          + pojo
+            + User.java
+        + resources
+          + SqlMapConfig.xml
+            * 封装数据源（数据库连接池）
+            * 引用其他配置文件
+          + User.xml
+            * 配置各种sql
+        + test
+          * 通过SqlMapConfig生成factory
+          * 通过factory生成session
+          * 通过session选择需要执行的sql
+          * 返回对应的对象
+            * 操作类需要commit
+              * openSession.selectOne中泛型的使用很有意思 [0/1]
+                * [ ] 未了解
+2. 基于Dao的封装
+   1. 将具体的操作封装为一个dao，dao中映射xml中的sql语句
+   2. 将factory注入到dao中
+   3. session由于线程不安全，所以只能放在方法体内
+   4. 整体结构
+      + main
+        + java
+          + pojo
+            + User.java
+          + dao
+            + UserDao.java
+              + 接口
+            + UserDaoImpl.java
+              + 实现类，注入了factory
+        + resources
+          + 同上
+        + test
+          + 将factory注入到dao中
+          + 待用dao相应的方法
+          + 修改等操作不进行commit自动进行回滚
+3. 基于动态代理的封装
+   1. 将映射xml中sql语句动态代理为关联方法名
+      1. 接口名
+      2. 方法
+         1. 方法名
+         2. 方法参数
+         3. 返回类型
+   2. sqlConfig中通过package的方式扫描包即可
+   3. 整体结构
+      + main
+        + java
+          + pojo
+          + mapper
+            + UserMapper.java
+            + UserMapper.xml
+        + resources
+          + SqlConfig.xml
+            + 添加package扫描mapper包
+        + test
+          + ~mapper = session.getMapper(UserMapper.class)~
+      + pom.xml
+        + 进行如下配置即可解决
+          + 应该是maven默认不编译源文件夹中的配置文件的缘故
+
+#+BEGIN_SRC xml
+<!-- pom.xml,用于编译期间加入配置文件 -->
+<build>
+<resources>
+    <resource>
+        <directory>src/main/java</directory>
+        <includes>
+            <include>**/*.xml</include>
+        </includes>
+        <filtering>true</filtering>
+    </resource>
+</resources>
+</build>
+#+END_SRC
