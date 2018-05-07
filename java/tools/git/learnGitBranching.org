@@ -164,7 +164,7 @@ Git一些炫酷的特性
 自由修改提交树
 
 ** 1. ~Git Cherry-pick~
-
+   
 ** 2. 交互式 ~rebase~
 
 * 杂项
@@ -229,3 +229,5 @@ Git一些炫酷的特性
 
 ** 8. ~Git Pull~ 的参数
 
+LW3M23X
+https://help.steampowered.com/zh-cn/wizard/HelpSelfUnlock?code=LW3M23X&account=pxshuo
