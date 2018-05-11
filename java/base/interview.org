@@ -1,0 +1,60 @@
+* 记录一次面试博文
+
+** 日常任务
+
+*** TODO 设计模式
+
+**** TODO FIrst Head
+
+*** TODO Effective Java
+
+*** TODO 集合类源码
+
+*** TODO 算法题
+
+**** 牛客
+
+*** TODO 基础知识若干
+
+
+** TODO 面试题 [0/9]
+
+*** TODO StringBuffer与StringBuilder的区别与底层实现
+
+*** TODO Map总结
+
+*** TODO HashMap为什么线程不安全,1.8之后如何
+
+*** TODO ConcurrentHashMap为什么线程安全 [0/4]
+
+**** TODO 红黑树
+
+**** TODO CAS
+
+**** TODO ABA
+
+*** TODO 快排算法
+
+*** TODO JVM [0/5]
+
+**** TODO 内存模型
+
+**** TODO 垃圾回收算法
+
+**** TODO 垃圾回收器
+
+**** TODO G1
+
+**** TODO CMS
+
+*** TODO Spring理解 [0/3]
+
+**** TODO IOC
+
+**** TODO AOP [0/2]
+
+***** TODO GCLib动态代理
+
+*** TODO MySql [0/2]
+
+**** TODO 两种数据引擎的区别

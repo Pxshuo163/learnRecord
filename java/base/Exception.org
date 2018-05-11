@@ -1,0 +1,41 @@
+* 异常处理
+
++ 异常处理
+  + Throwable
+  + 异常分类
+    1. 运行时异常 : 可以不捕获
+       1. RuntimeException
+    2. 编译时异常 : 不捕获无法通过编译
++ 处理顺序
+  1) 自己处理异常,然后继续运行
+     + 处理结构
+       + try catch
+       + try catch finally
+       + try finally
+     + 在try中捕获异常以后,程序可以继续执行
+  2) 交给JVM处理异常
+     + 抛出异常,退出程序
++ 服务端开发
+  + 向上抛出异常
+    + 把异常集中到一起,方便查看与控制
++ [X] throw 抛出
+  + 编译时可能就是那些包含throw的方法
+  + ~throw new Exception~ :: 必须对其进行处理,方法上throws出去
+  + ~throw bew RUntimeException~ :: 不用对其进行处理,可以不在方法上throws
++ [X] finally
+  + 概念
+    + 正常情况下其中的语句块一定会被执行
+    + 用于释放资源
+    + [X] 即使catch中return后,finally也会被执行
+      + return执行之后才执行的finally
+      + finally中不写返回语句,用来释放资源的,不用做其他的事情
+    + 但是退出虚拟机之后不会被执行
+  + final
+    + 修饰类 :: 不能被继承
+    + 修饰方法 :: 不能被重写
+    + 修饰变量 :: 只能赋值一次
+  + finalize
+    + 垃圾回收期调用该方法
++ 自定义异常
+  + 通过名字来标记异常
+  + 实际上各个异常中没有什么实现的
