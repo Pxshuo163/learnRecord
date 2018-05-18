@@ -1,0 +1,21 @@
+* Visual Studio Code构建C++开发环境
+** 0. vscode安装
+*** 略
+** 1. 插件安装
+*** C/C++
+**** 官方C++工具
+*** code Runner
+**** 动态运行选中代码块
+**** 选中右键即可
+**** 代码中include可能会出现绿色波浪线
+***** 鼠标放上去,点小灯泡生成include的路径,用默认的就可以,也可以配置当前路径,windows需要自行配置
+*** native debug
+**** gdb图形化调试C++
+** 2. 构建可执行文件
+*** Ctrl+Shift+B构建可执行文件(任务)
+**** 选择Others
+**** 将command改为gcc,添加一个arg,配置些许参数
+**** 然后继续快捷键就可以生成exe文件
+*** 打开debug页面
+**** .c文件下F5选择GDB进行调试
+***** 修改target为./hello.exe
