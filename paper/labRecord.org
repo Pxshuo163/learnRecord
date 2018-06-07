@@ -13,3 +13,29 @@
 ******** 另一路 867.20
 **** 取消缓存设置之后并没有明显的变化
 ***** 这应该可以表明PIT的聚合操作起到了重要的作用
+
+* Interest添加来源字段
+** 修改记录
+*** interest.hpp
+**** 添加了consumer字段
+**** get,set方法
+*** interest.cpp
+**** 修改了操作符重载部分,添加了consumer的写出
+**** 修改Encode与Decode
+*** ndn-consumer.cpp
+**** sendPacket中使用interest的setConsumer进行了赋值
+**** 由于grid示例使用的是ConsumerCbr,所以需要修改正确的文件才可以,Cbr继承了Consumer,所以并没有影响
+**** 外置的工作空间还是不太好用,用内置的就好了,尝试把不需要的清出来,提高编译速度
+*** 修改之后可以执行,但是不能够正常显示来源,应该是压缩与解压的问题
+**** [[http://named-data.net/doc/NDN-packet-spec/current/types.html#types][规则]]
+** 修改之后的执行
+*** 进入ns-3目录下,打开控制台
+*** ~./waf~
+
+* Tips
+** 打印
+*** ~std::cout << "hello" << std::endl;~
+** std::string
+*** 不可与NULL比较,判断为空可以使用.empty()
+*** int转string
+**** std::to_string(int a);
