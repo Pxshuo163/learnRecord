@@ -24,3 +24,16 @@
 ***** 索引 :: a[3]
 ***** seq(2,6,by=2) :: 2,4,6
 ***** seq(2,6,length=5) :: 2,3,4,5,6
+
+* TODO R环境安装记录
+
+** Ubuntu下安装
+
++ [ ] 命令行执行 ~sudo apt-get install r-base~
+  + 不用添加源,直接执行即可安装
++ [ ] 验证
+  + 命令行 :: ~R~ 进入R命令行模式
+  + ~print("Hello world")~ :: 输出[1] "Hello world"
++ [ ] RStudio安装
+  + 下载deb
+  + 安装 :: ~sudo dpkg -i rstudio-XXX.deb~
