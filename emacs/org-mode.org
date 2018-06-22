@@ -1,0 +1,77 @@
+* DONE OrgMode简介
+
+* Tasks
+** 制作Org视频
+*** Org基本应用 (tab展开与关闭标题)(Ctrl-c e 输出为文件)
+      - 制定计划
+      - 编写Script
+      - 制作视频
+      - 格式转换
+      - 上传YouKu
+*** org2blog写wordpress博客
+*** easypg进行文件加密
+** 写日记 (二级标题,Alt + →)
+
+* Read (Alt + Enter)
+
+
+* DONE Org时间管理
+
+* Tasks
+** DONE 制作Org视频 
+   SCHEDULED: <2018-06-22 五>
+   :PROPERTIES:
+   :Attachments: test.atta
+   :END:
++ 时间戳 :: 通过shift + 方向键控制选择
+  + 开始日期 :: Ctrl+c Ctrl+s
+  + 截止日期 :: Ctrl+c Ctrl+d
+  + 一段时间 :: Ctrl+c .
+    + 选两个时间,也就是执行两次
++ 行程 :: Ctrl-c a a--代考 
+  + 将日期加入到行程中去 :: Ctrl+c [
++ Ctrl-c Ctrl-t :: Done 
+
+*** Org基本应用 
+      - 制定计划
+      - 编写Script
+      - 制作视频
+      - 格式转换
+      - 上传YouKu
+*** TODO org2blog写wordpress博客
+    DEADLINE: <2018-06-24 日>
+*** easypg进行文件加密
+** 写日记 
+<2018-06-22 五>--<2018-06-24 日>
+
+* Read
+** TODO 每日阅读
+   SCHEDULED: <2018-06-30 六 +1d>
+   :PROPERTIES:
+   :LAST_REPEAT: [2018-06-22 五 16:12]
+   :END:
+
+
+   - State "DONE"       from "TODO"       [2018-06-22 五 16:12]
+   - State "DONE"       from "TODO"       [2018-06-22 五 16:12]
+   - State "DONE"       from ""           [2018-06-22 五 16:12]
+   - State "DONE"       from "TODO"       [2018-06-22 五 16:12]
+   - State "DONE"       from "TODO"       [2018-06-22 五 16:12]
+   - State "DONE"       from "TODO"       [2018-06-22 五 16:12]
+   - State "DONE"       from "TODO"       [2018-06-22 五 16:12]
+   - State "DONE"       from "TODO"       [2018-06-22 五 16:12]
+   - State "DONE"       from "TODO"       [2018-06-22 五 16:12]
+   - State "DONE"       from "TODO"       [2018-06-22 五 16:12]
+   - State "DONE"       from "TODO"       [2018-06-22 五 16:11]
+   - State "DONE"       from "TODO"       [2018-06-22 五 16:11]
+   - State "DONE"       from "TODO"       [2018-06-22 五 16:11]
+   - State "DONE"       from "TODO"       [2018-06-22 五 16:10]
+* Task
+** TODO 制作Org视频
+*** Org基本应用
+
++ 时间备注 :: 不记入行程
+  + Ctrl + c !   [2018-06-22 五] 
+
+* 记录操作
+  

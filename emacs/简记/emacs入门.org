@@ -66,3 +66,7 @@
    + 设置2
      + [[http:emacser.com/torture-emacs.htm][参考网址]]
 3. 
+
+* 操作
++ SPC :: Alt + m
+  + Alt + m ? :: 查看快捷键 
