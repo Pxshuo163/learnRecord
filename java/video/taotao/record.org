@@ -1,0 +1,41 @@
+* 第一天 RESTful Web Service
+  :LOGBOOK:
+  CLOCK: [2018-07-04 三 20:50]
+  :END:
+
++ 图书
+  + 淘宝技术这十年
++ 创建maven私服
+  + Nexus
++ eclipse
+  + 设置编码 UTF-8,java与jsp
+  + 设置字体
+  + 设置JDK
+    + 将JRE换为JDK
+  + 导入模板 :: Ctrl + shift + f 格式化代码
+    + 随意
+  + 设置maven
+    + 设置源与设置文件
++ maven
+  + 修改conf中的setting(先备份)
+    1. 修改本地仓库地址
+    2. 添加国内镜像服务
+    3. 增加账号 : 用于上传jar
++ maven继承
+  + 父工程使用depencyManagement
+  + 子工程自选,去掉版本即可
+    + 子工程配置tomcat插件,在plugin中
+      + 使用maven build进行执行
+      + 通过tomcat7:run进行执行
+        + 需要先安装才可以执行
++ web.xml
+  + Spring
+  + SpringMVC
+    + / 不可以用/*
+    + structs为过滤器,Springmvc为servlet
++ Spring配置文件
+  + IOC注解
+  + AOP配置
+  + JVM覆盖 :: java -Dabc=123 -jar xxx.jar,用于覆盖变量
++ 日志配置
+
