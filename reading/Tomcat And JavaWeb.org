@@ -1,0 +1,35 @@
+* Tomcat与JavaWeb开发技术详解
+
++ [ ] 了解 [0/4]
+  + [ ] 什么是Servlet
+    + 生成HTML的工具,通过Tomcat创建键值关系进行调用
+  + [ ] 什么是Listener
+    + 监听工具,可以监听ServletContext,ServletRequest与ServletSession等
+    + 在每次监听对象创建之前创建,销毁之后销毁
+    + 并没有示例说明可以与监听对象进行互动
+  + [ ] 什么是拦截器
+  + [ ] 什么是过滤器
+    + 相当于Servlet的监听器
+
+** 目录结构
+
++ Tomcat的基础知识
+  + 服务器结构和安装步骤
+  + Java Web应用的结构与发布
+  + 配合虚拟主机
++ Java Servlet, JavaServer Page以及JavaWeb应用的基础知识
+  + Servlet的原理
+  + 创建Servlet的基本步骤
+  + JSP语法
+  + 访问数据库,配置数据源
+  + JavaBean的生命周期
+  + Session
++ 高级开发
+  + Servlet过滤器
+  + 自定义JSP
+  + 模板设计
+  + Java Mail
++ 高级功能
+  + 持久性会话管理
+  + 安全域
+  + SSL
