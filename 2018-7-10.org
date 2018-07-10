@@ -1,0 +1,74 @@
+* 使用Emacs进行时间规划与知识点记录
+** 基本操作
+
+1. 举例
+   1. 缩放页面
+      1. ~C-x C-0 +~
+2. 日程相关
+   1. 创建日程表: ~C-c C-s~
+   2. 创建截止日期: ~C-c C-d~
+      1. 移动日期: ~S-方向键~
+   3. 将当前文件加入日程中(agenda): ~C-c [~
+   4. 移除为: ~C-c ]~
+   5. 打开日程:
+      1. ~M-x~
+      2. 输入: ~agenda Enter a~
+3. 常用
+   1. 删除一行: ~C-k~
+4. 外部链接
+   1. file:TODO.org::归总
+   2. 归总格式为 ~\<\<归总\>\>~ 即可
+
+* TODO Java容器 [1/8]
+  DEADLINE: <2018-07-14 六>
+
+** TODO Hash冲突解决手段
+   DEADLINE: <2018-07-14 六>
+
+** DONE ArrayList中成员数组不序列化问题
+   DEADLINE: <2018-07-14 六>
+
+file:./java/base/Java容器.org::序列化
+
+** TODO HashMap链表插入策略
+   DEADLINE: <2018-07-14 六>
+  
+** TODO HashMap扩容问题
+   DEADLINE: <2018-07-14 六>
+  
+** TODO HashMap线程安全
+   DEADLINE: <2018-07-14 六>
+
+** TODO HashMap源码注解
+   DEADLINE: <2018-07-14 六>
+
+** TODO HashTable
+   DEADLINE: <2018-07-14 六>
+
+** TODO CocurrentHashMap原理
+   DEADLINE: <2018-07-14 六>
+
+
+* TODO Spring [0/2]
+  DEADLINE: <2018-07-14 六>
+
+** TODO Spring通常配置
+   DEADLINE: <2018-07-14 六>
+
+** TODO Spring事务与AOP配置
+   DEADLINE: <2018-07-14 六>
+
+* TODO 设计模式复习 [0/3]
+  DEADLINE: <2018-07-14 六>
+
+** TODO 设计模式复习
+   DEADLINE: <2018-07-14 六>
+
+** TODO 设计模式类图
+   DEADLINE: <2018-07-14 六>
+
+* TODO 其他 [0/1]
+  DEADLINE: <2018-07-14 六>
+
+** TODO Webservice
+   DEADLINE: <2018-07-14 六>
