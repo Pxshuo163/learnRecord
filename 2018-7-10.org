@@ -15,20 +15,25 @@
       2. 输入: ~agenda Enter a~
 3. 常用
    1. 删除一行: ~C-k~
+   2. 选中一行: ~C-空格 C-e~
+   3. 复制选中部分: ~M-w~
+   4. 粘贴: ~C-y~
 4. 外部链接
    1. file:TODO.org::归总
    2. 归总格式为 ~\<\<归总\>\>~ 即可
 
-* TODO Java容器 [1/8]
+* TODO 1. Java容器 [3/8]
   DEADLINE: <2018-07-14 六>
 
-** TODO Hash冲突解决手段
+** DONE 1.1 Hash冲突解决手段
    DEADLINE: <2018-07-14 六>
 
-** DONE ArrayList中成员数组不序列化问题
+file:java/base/Java容器.org::1.1
+
+** DONE 1.2 ArrayList中成员数组不序列化问题
    DEADLINE: <2018-07-14 六>
 
-file:./java/base/Java容器.org::序列化
+file:java/base/Java容器.org::1.2
 
 ** TODO HashMap链表插入策略
    DEADLINE: <2018-07-14 六>
@@ -39,15 +44,30 @@ file:./java/base/Java容器.org::序列化
 ** TODO HashMap线程安全
    DEADLINE: <2018-07-14 六>
 
-** TODO HashMap源码注解
+** TODO HashMap源码注解 [0/2]
    DEADLINE: <2018-07-14 六>
 
-** TODO HashTable
++ [-] put [1/2]
+  + [X] 存入
+  + [ ] 扩容
++ [ ] 删除
+
+** DONE HashTable
    DEADLINE: <2018-07-14 六>
+
+file:java/base/Java容器.org::1.7
 
 ** TODO CocurrentHashMap原理
    DEADLINE: <2018-07-14 六>
 
+
+* TODO 2 Java多线程 [0/1]
+  DEADLINE: <2018-07-14 六>
+
+** TODO 2.1 Java并发编程实战2-3章概念复习
+   DEADLINE: <2018-07-14 六>
+
+* TODO 3 JavaIO [/]
 
 * TODO Spring [0/2]
   DEADLINE: <2018-07-14 六>
