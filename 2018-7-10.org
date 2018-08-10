@@ -87,8 +87,20 @@ file:java/base/Java容器.org::1.7
 ** TODO 设计模式类图
    DEADLINE: <2018-07-14 六>
 
-* TODO 其他 [0/1]
+* TODO 其他 [0/4]
   DEADLINE: <2018-07-14 六>
 
 ** TODO Webservice
    DEADLINE: <2018-07-14 六>
+
+** TODO MyBatis缓存
+收藏夹中
+
+** TODO String长度
+
+str.getBytes().length :: 防止中文字符
+
+** TODO 数据库批量删除
+
+如何确保性能?一次性删除
+确保安全:字符不会过长

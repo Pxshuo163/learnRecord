@@ -1,41 +1,100 @@
+* 总记
+
++ 推荐
+  + 书籍 :: 淘宝技术这十年
+  + 网站 :: 开源中国
+  + 书籍 :: Java RESTful Web Service实战
+
 * 第一天 RESTful Web Service
   :LOGBOOK:
   CLOCK: [2018-07-04 三 20:50]
   :END:
 
-+ 图书
-  + 淘宝技术这十年
-+ 创建maven私服
-  + Nexus
-+ eclipse
-  + 设置编码 UTF-8,java与jsp
-  + 设置字体
-  + 设置JDK
-    + 将JRE换为JDK
-  + 导入模板 :: Ctrl + shift + f 格式化代码
-    + 随意
-  + 设置maven
-    + 设置源与设置文件
-+ maven
-  + 修改conf中的setting(先备份)
-    1. 修改本地仓库地址
-    2. 添加国内镜像服务
-    3. 增加账号 : 用于上传jar
-+ maven继承
-  + 父工程使用depencyManagement
-  + 子工程自选,去掉版本即可
-    + 子工程配置tomcat插件,在plugin中
-      + 使用maven build进行执行
-      + 通过tomcat7:run进行执行
-        + 需要先安装才可以执行
-+ web.xml
-  + Spring
-  + SpringMVC
-    + / 不可以用/*
-    + structs为过滤器,Springmvc为servlet
-+ Spring配置文件
-  + IOC注解
-  + AOP配置
-  + JVM覆盖 :: java -Dabc=123 -jar xxx.jar,用于覆盖变量
-+ 日志配置
+** 1.今日大纲
 
+1. 搭建SSM环境
+2. 基于SSM环境实现用户管理系统
+3. 学习RESTful Web Service
+4. 学习SVN
+
+** 2. 统一开发环境
+
+1. JDK
+2. eclipse
+3. 数据库 mysql
+   1. 数据库工具
+   2. navicat
+4. maven
+
+** 3. SSM环境
+
+1. 数据库
+   1. 新版本需要参数 :: ~serverTime=UTC&useSSL=false~
+2. 创建工程
+   1. maven :: 打包方式为 ~war~
+3. 管理依赖
+   1. 添加父项目 :: 不是加入父项目的模块
+   2. 通过 ~dependencyManagement~ 进行管理
+   3. 子项目进行继承即可
+   4. 运行Tomcat插件
+      1. 需要在plugin中进行配置
+      2. 最新的应该为tomcat7
+      3. IDEA中运行设置使用maven模板即可
+         1. 设置中需要添加命令 :: ~tomcat7:run~
+      4. 注意项目打包方式为 ~war~
+4. 相关配置文件
+   1. web.xml
+      1. 一个listener,三个filter,一个servlet
+   2. spring配置 :: 四个
+   3. mybatis :: 2类
+   4. 其他 :: jdbc,log4j
+5. 通用页面跳转
+   1. ~@RequestMapping(value = "{pageName}", method...)~
+   2. ~p s to(@PathVariable("pageName") Str pageName){}~
+   3. 通过 ~PathVariable~ 来获取URI中的参数
+6. 通用Mapper
+   1. 在 ~pojo~ 中添加映射
+      1. ~class~ 上添加 ~@table~
+      2. ~id~ 上添加 ~@Id~ ~@GeneratedValue(strategy = GenerationType.IDENTITY)~
+         1. 可以通过 ~@Column(name = "user_name")~ 映射相关字段
+      3. ~非数据库字段~ 需要通过 ~@Transient~ 进行修饰
+   2. Mapper需要继承通用接口
+   3. 返回值可以封装为一个对象 ~EasyUIResult~
+   4. 可以使用 ~ApplicationContext~ 将Service单独抽取出来进行测试
+   5. 扩展JS ~Date.prototype.format = function(){}~
+   6. 开源中国
+
+** 4. RESTful Web Service
+
+1. REST
+   1. 一种设计规范
+2. RESTful
+   1. ROA :: 面向资源架构
+   2. 无状态
+3. 资源操作
+   1. GET :: 200,400,500
+   2. POST :: 201,500
+   3. PUT :: 204,500
+   4. DELETE :: 204,500
+4. SpringMVC 实现RESTful
+   1. 注解
+      1. ~@RequestMapping~
+      2. ~PathVariable~
+   2. 返回值 :: ~ResponseEntity<User/Void>~
+      1. ~return ResponseEntity.status(200).body(user/null)~
+   3. PUT :: 不设置无法上传参数
+      1. 需要在 ~web.xml~ 配置对应的过滤器
+   4. DELETE :: 不设置无法上传参数
+      1. 需要在 ~web.xml~ 配置 ~hidden~ 过滤器,将post转化为delete
+         1. 需要在提交请求时,提交一个参数 ~_method=DELETE~ 才可以转化
+
+** 5. SVN
+
+1. 分文件夹
+   1. trunk :: 开发用
+   2. branches :: 分支,修复用
+   3. tag :: 发布用,每一个大版本都会放到这里,只读,不需修改
+      1. 出现问题之后,通过branch进行修复
+      2. 修复之后
+         1. 合并到trunk继续开发
+         2. 发布到tag为一个新的版本
