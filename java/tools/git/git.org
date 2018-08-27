@@ -12,3 +12,10 @@
   + [ ] 规划learnRecord
     + [ ] 分版本
   + [ ] 日常执行文档操作
+
+* Git 设置记录
+
++ 在 ~Linux~ 下, ~git status~ 中文乱码
+  + bash下输入 ~git config --global core.quotepath false~
+  + 将这个设置为false,就不会对0x80以上的字符进行quote,中文显示就正常了 [[https://blog.csdn.net/typro_java/article/details/53439537][博客网址]]  
++ 待
